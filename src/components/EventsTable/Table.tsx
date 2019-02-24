@@ -12,6 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Slide from '@material-ui/core/Slide';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import TablePaginatedActions from './TablePaginatedActions';
 import { IProgressBarState, IEventsState, IEvent } from '../../reducers/initialState';
@@ -28,7 +29,7 @@ const styles = (theme: Theme) => ({
     minWidth: 500,
   },
   tableWrapper: {
-    overflowX: 'auto' as 'auto',
+    overflowX: 'hidden' as 'hidden',
   },
 });
 
@@ -69,7 +70,7 @@ class CustomPaginationActionsTable extends React.Component<IProps> {
   };
 
   render() {
-    const { classes, events, } = this.props;
+    const { classes, events, progressBar, } = this.props;
     const { items, pages, rowsPerPage, currentPage, totalCount } = events;
     const itemIds = pages[currentPage] || [];
     let emptyRows;
@@ -106,28 +107,30 @@ class CustomPaginationActionsTable extends React.Component<IProps> {
                 <TableCell align="center">EndDate</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {itemIds
-                .filter(id => items[id])
-                .map(id => items[id])
-                .map((row: IEvent) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.label}
-                  </TableCell>
-                  <TableCell align="center" style={{backgroundColor: row.category}}>
-                    <span style={{backgroundColor: 'white'}}>{row.category}</span>
-                  </TableCell>
-                  <TableCell align="right">{new Date(row.start).toLocaleString()}</TableCell>
-                  <TableCell align="right">{new Date(row.end).toLocaleString()}</TableCell>
-                </TableRow>
-              ))}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
+            <Slide direction="left" in={progressBar.loaded} mountOnEnter={true} unmountOnExit={true} exit={false}>
+              <TableBody>
+                {itemIds
+                  .filter(id => items[id])
+                  .map(id => items[id])
+                  .map((row: IEvent) => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.label}
+                    </TableCell>
+                    <TableCell align="center" style={{backgroundColor: row.category}}>
+                      <span style={{backgroundColor: 'white'}}>{row.category}</span>
+                    </TableCell>
+                    <TableCell align="right">{new Date(row.start).toLocaleString()}</TableCell>
+                    <TableCell align="right">{new Date(row.end).toLocaleString()}</TableCell>
+                  </TableRow>
+                ))}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 48 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Slide>
             <TableFooter>
               <TableRow>
                 <TablePagination
