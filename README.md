@@ -1,3 +1,9 @@
+# Events App
+
+Check out deployed app [here](https://loginwashere.pp.ua/events-app/)
+
+[![CircleCI](https://circleci.com/gh/loginwashere/events-app.svg?style=svg)](https://circleci.com/gh/loginwashere/events-app)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
