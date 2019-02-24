@@ -6,6 +6,10 @@ Check out deployed app [here](https://loginwashere.pp.ua/events-app/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Settings
+
+Copy `.sample.env` into `.env` and set `REACT_APP_API_BASE_URL` before start.
+
 ## Available Scripts
 
 In the project directory, you can run:
