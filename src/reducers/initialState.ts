@@ -1,5 +1,5 @@
 import { RouterState } from 'connected-react-router';
-import { DEFAULT_PAGE, DEFAULT_PER_PAGE } from '../api';
+import { DEFAULT_PAGE, DEFAULT_PER_PAGE, Overlaps } from '../api';
 import {startOfWeek, endOfWeek} from 'date-fns';
 
 export interface IProgressBarState {
@@ -32,6 +32,7 @@ export interface IEventsState {
   totalCount: number;
   since: Date;
   before: Date;
+  overlaps: Overlaps;
   loading: boolean;
   loaded: boolean;
 }
@@ -57,6 +58,7 @@ export const RootState: IRootState = {
     rowsPerPage: DEFAULT_PER_PAGE,
     since: startOfWeek(now),
     before: endOfWeek(now),
+    overlaps: Overlaps.Unknown,
     totalCount: 0,
     loading: false,
     loaded: false,

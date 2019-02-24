@@ -35,7 +35,8 @@ class CurrencyListPage extends Component<IProps> {
       this.props.events.currentPage !== nextProps.events.currentPage ||
       this.props.events.rowsPerPage !== nextProps.events.rowsPerPage ||
       this.props.events.since !== nextProps.events.since ||
-      this.props.events.before !== nextProps.events.before
+      this.props.events.before !== nextProps.events.before ||
+      this.props.events.overlaps !== nextProps.events.overlaps
     ) {
       this.props.fetchItems();
     }

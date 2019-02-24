@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, SyntheticEvent } from 'react';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,10 +7,15 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
+import FormGroup from '@material-ui/core/FormGroup';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import TablePaginatedActions from './TablePaginatedActions';
 import { IProgressBarState, IEventsState, IEvent } from '../../reducers/initialState';
-import { IFetchAllEventsParams, DEFAULT_PAGE } from '../../api';
+import { IFetchAllEventsParams, DEFAULT_PAGE, Overlaps } from '../../api';
 import {startOfWeek, endOfWeek} from 'date-fns';
 import WeekPicker from './WeekPicker';
 
@@ -59,6 +64,10 @@ class CustomPaginationActionsTable extends React.Component<IProps> {
     this.props.changeParam({page: DEFAULT_PAGE, rowsPerPage: parseInt(event.target.value, 10) });
   };
 
+  handleChange = (event: HTMLElementEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
+    this.props.changeParam({page: DEFAULT_PAGE, overlaps: event.target.value as any});
+  };
+
   render() {
     const { classes, events, } = this.props;
     const { items, pages, rowsPerPage, currentPage, totalCount } = events;
@@ -70,14 +79,31 @@ class CustomPaginationActionsTable extends React.Component<IProps> {
       : emptyRows;
     return (
         <div className={classes.tableWrapper}>
-          <WeekPicker value={events.since} onChange={this.handleDateChange} label="Current week" />
+          <FormGroup row={true}>
+            <WeekPicker value={events.since} onChange={this.handleDateChange} label="Current week" />
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="overlaps">Overlaps</InputLabel>
+              <Select
+                value={events.overlaps}
+                onChange={this.handleChange}
+                inputProps={{
+                  name: 'overlaps',
+                  id: 'overlaps',
+                }}
+              >
+                <MenuItem value={Overlaps.Unknown}>Unknown</MenuItem>
+                <MenuItem value={Overlaps.Yes}>Yes</MenuItem>
+                <MenuItem value={Overlaps.No}>No</MenuItem>
+              </Select>
+            </FormControl>
+          </FormGroup>
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>Label</TableCell>
-                <TableCell align="right">Category</TableCell>
-                <TableCell align="right">Start Date</TableCell>
-                <TableCell align="right">EndDate</TableCell>
+                <TableCell align="center">Label</TableCell>
+                <TableCell align="center">Category</TableCell>
+                <TableCell align="center">Start Date</TableCell>
+                <TableCell align="center">EndDate</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

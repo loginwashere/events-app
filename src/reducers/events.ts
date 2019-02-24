@@ -44,6 +44,9 @@ export default (state: IEventsState = RootState.events, action: Actions) => {
         before: action.payload.before
           ? action.payload.before
           : state.before,
+          overlaps: action.payload.overlaps
+          ? action.payload.overlaps
+          : state.overlaps,
       }
       return {
         ...state,

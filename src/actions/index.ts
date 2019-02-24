@@ -28,6 +28,9 @@ export const fetchAll = (params?: IFetchAllEventsParams) => (
       : eventsState.rowsPerPage,
     since: eventsState.since,
     before: eventsState.before,
+    overlaps:  params && params.overlaps
+      ? params.overlaps
+      : eventsState.overlaps,
   };
 
   return api.fetchAllEvents(fetchParams)
